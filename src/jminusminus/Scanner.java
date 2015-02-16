@@ -1,3 +1,4 @@
+
 // Copyright 2013 Bill Campbell, Swami Iyer and Bahar Akbal-Delibas
 
 package jminusminus;
@@ -106,7 +107,7 @@ class Scanner {
                         nextCh();
                     }
                 } else {
-                    reportScannerError("Operator / is not supported in j--.");
+                    return new TokenInfo(DIV, line);
                 }
             } else {
                 moreWhiteSpace = false;
