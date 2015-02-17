@@ -6,7 +6,7 @@ public class Palindrome {
 		if(isPalindrome(s.toLowerCase())){
 			return s;
 		}
-		return null;
+		return "";
     }
 	private static boolean isPalindrome(String s){
 		int length = s.length();
