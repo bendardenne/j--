@@ -1,6 +1,7 @@
 *.class
 javadoc/
 java2html/
+j--.zip
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

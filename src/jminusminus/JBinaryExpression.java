@@ -275,7 +275,7 @@ class JDivideOp extends JBinaryExpression {
      */
 
     public JDivideOp(int line, JExpression lhs, JExpression rhs) {
-        super(line, "*", lhs, rhs);
+        super(line, "/", lhs, rhs);
     }
 
     public JExpression analyze(Context context) {
@@ -303,3 +303,53 @@ class JDivideOp extends JBinaryExpression {
     }
 
 }
+
+/**
+ * The AST node for a left shift (<<) expression.
+ */
+
+class JLeftShiftOp extends JBinaryExpression {
+
+    /**
+     * Construct an AST for a multiplication expression given its line number,
+     * and the numerator and denominator.
+     * 
+     * @param line
+     *            line in which the division expression occurs in the
+     *            source file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JLeftShiftOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "<<", lhs, rhs);
+    }
+
+    public JExpression analyze(Context context) {
+        lhs = (JExpression) lhs.analyze(context);
+        rhs = (JExpression) rhs.analyze(context);
+        lhs.type().mustMatchExpected(line(), Type.INT);
+        rhs.type().mustMatchExpected(line(), Type.INT);
+        type = Type.INT;
+        return this;
+    }
+
+    /**
+     * Generating code for the << operation involves generating code for the two
+     * operands, and then the left shift instruction.
+     * 
+     * @param output
+     *            the code emitter (basically an abstraction for producing the
+     *            .class file).
+     */
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(ISHL);
+    }
+
+}
+

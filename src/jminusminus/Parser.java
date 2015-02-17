@@ -1062,8 +1062,8 @@ public class Parser {
      * Parse a relational expression.
      * 
      * <pre>
-     *   relationalExpression ::= additiveExpression  // level 5
-     *                              [(GT | LE) additiveExpression 
+     *   relationalExpression ::= logicalshiftExpression  // level 5
+     *                              [(GT | LE) logicalshiftExpression 
      *                              | INSTANCEOF referenceType]
      * </pre>
      * 
@@ -1072,16 +1072,41 @@ public class Parser {
 
     private JExpression relationalExpression() {
         int line = scanner.token().line();
-        JExpression lhs = additiveExpression();
+        JExpression lhs = logicalshiftExpression();
         if (have(GT)) {
-            return new JGreaterThanOp(line, lhs, additiveExpression());
+            return new JGreaterThanOp(line, lhs, logicalshiftExpression());
         } else if (have(LE)) {
-            return new JLessEqualOp(line, lhs, additiveExpression());
+            return new JLessEqualOp(line, lhs, logicalshiftExpression());
         } else if (have(INSTANCEOF)) {
             return new JInstanceOfOp(line, lhs, referenceType());
         } else {
             return lhs;
         }
+    }
+    
+    /**
+     * Parse a shift expression.
+     * 
+     * <pre>
+     *   shiftExpression ::= additiveExpression  // level 4
+     *                              [<< additiveExpression] 
+     * </pre>
+     * 
+     * @return an AST for a logicalshiftExpression.
+     */
+
+    private JExpression logicalshiftExpression() {
+        int line = scanner.token().line();
+        boolean more = true;
+        JExpression lhs = additiveExpression();
+        while (more) {
+            if (have(LLEFTSHIFT)) {
+                lhs = new JLeftShiftOp(line, lhs, multiplicativeExpression());
+            } else {
+                more = false;
+            }
+        }
+        return lhs;
     }
 
     /**
@@ -1131,8 +1156,7 @@ public class Parser {
                 lhs = new JMultiplyOp(line, lhs, unaryExpression());
             } else if(have(DIV)) {
                 lhs = new JDivideOp(line, lhs, unaryExpression());
-            }
-            else {
+            } else {
                 more = false;
             }
         }
