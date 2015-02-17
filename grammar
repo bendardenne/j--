@@ -90,6 +90,7 @@ multiplicativeExpression ::= unaryExpression       // level 2
 
 unaryExpression ::= INC unaryExpression  // level 1
                   | MINUS unaryExpression
+                  | UBCOMP unaryExpression
                   | simpleUnaryExpression
 
 simpleUnaryExpression ::= LNOT unaryExpression

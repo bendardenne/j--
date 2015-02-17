@@ -164,6 +164,9 @@ class Scanner {
             } else {
                 return new TokenInfo(PLUS, line);
             }
+        case '~':
+            nextCh();
+        	return new TokenInfo(UBCOMP, line);
         case '-':
             nextCh();
             if (ch == '-') {
