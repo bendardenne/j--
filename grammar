@@ -78,9 +78,12 @@ conditionalAndExpression ::= equalityExpression // level 10
 equalityExpression ::= relationalExpression  // level 6
                          {EQUAL relationalExpression}
 
-relationalExpression ::= additiveExpression       // level 5
-                           [(GT | LE) additiveExpression
+relationalExpression ::= logicalshiftExpression       // level 5
+                           [(GT | LE) logicalshiftExpression
                            | INSTANCEOF referenceType]
+
+logicalshiftExpression ::= additiveExpression   // level 4
+							{<< additiveExpression}
 
 additiveExpression ::= multiplicativeExpression // level 3
                          {(PLUS | MINUS) multiplicativeExpression}

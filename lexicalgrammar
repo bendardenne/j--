@@ -39,6 +39,7 @@ EQUAL       ::= "=="
 GT          ::= ">"
 INC         ::= "++"
 LAND        ::= "&&"
+LLEFTSHIFT  ::= "<<" 
 LE          ::= "<="
 LNOT        ::= "!"
 MINUS       ::= "-"
@@ -46,7 +47,7 @@ PLUS        ::= "+"
 PLUS_ASSIGN ::= "+="
 STAR        ::= "*"
 DIV         ::= "/"
-UBCOMP		::= "~"
+UBCOMP      ::= "~"
 
 
 // Separators
