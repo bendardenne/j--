@@ -25,7 +25,7 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(LeftShiftTest.class);
         suite.addTestSuite(UnaryBitwiseComplementTest.class);
         suite.addTestSuite(PalindromeTest.class);
-
+        
         return suite;
     }
 
