@@ -12,7 +12,7 @@ package jminusminus;
 
 enum TokenKind {
     EOF("<EOF>"), ABSTRACT("abstract"), BOOLEAN("boolean"), CHAR("char"), CLASS(
-            "class"), ELSE("else"), EXTENDS("extends"), FALSE("false"), IF("if"), IMPORT(
+            "class"), DO("do"), ELSE("else"), EXTENDS("extends"), FALSE("false"), IF("if"), IMPORT(
             "import"), INSTANCEOF("instanceof"), INT("int"), NEW("new"), NULL(
             "null"), PACKAGE("package"), PRIVATE("private"), PROTECTED(
             "protected"), PUBLIC("public"), RETURN("return"), STATIC("static"), SUPER(
