@@ -253,9 +253,23 @@ class Scanner {
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':
-            // Handle only simple decimal integers for now.
             nextCh();
+            
+            // Handle hexadecimal or octal representation
+            if(ch == 'x' || isDigit(ch) ){
+            	buffer = new StringBuffer();
+            	if(ch == 'x'){
+            		buffer.append('x');
+            		nextCh();
+            	}
+            	while (isDigit(ch)) {
+                    buffer.append(ch);
+                    nextCh();
+                }
+            	return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+            } 
             return new TokenInfo(INT_LITERAL, "0", line);
+            
         case '1':
         case '2':
         case '3':

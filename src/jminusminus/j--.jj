@@ -214,7 +214,7 @@ TOKEN:
 // Literals
 TOKEN:
 {
-  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
+  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "0" (<DIGIT>)* | "0x" (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
