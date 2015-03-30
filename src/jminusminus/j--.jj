@@ -209,13 +209,15 @@ TOKEN:
   < IDENTIFIER: (<LETTER>|"_"|"$") (<LETTER>|<DIGIT>|"_"|"$")* >
 | < #LETTER: ["a"-"z","A"-"Z"] >
 | < #DIGIT: ["0"-"9"] >
+| < #HEXA : ["0"-"9","a"-"f"] >
+| < #OCTA : ["0"-"7"] >
 | < #NON_ZERO_DIGIT: ["1"-"9"] >
 }
 
 // Literals
 TOKEN:
 {
-  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "0" (<DIGIT>)* | "0x" (<DIGIT>)*) >
+  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "0" (<OCTA>)* | "0x" (<HEXA>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >

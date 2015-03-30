@@ -264,17 +264,26 @@ class Scanner {
         case '0':
             nextCh();
             
-            // Handle hexadecimal or octal representation
-            if(ch == 'x' || isDigit(ch) ){
+            // Handle hexadecimal representation
+            if(ch == 'x'){
             	buffer = new StringBuffer();
-            	if(ch == 'x'){
-            		buffer.append('x');
-            		nextCh();
+           		buffer.append('x');
+           		nextCh();
+           		
+           		while (isHexa(ch)){
+           			buffer.append(ch);
+           			nextCh();
             	}
-            	while (isDigit(ch)) {
-                    buffer.append(ch);
-                    nextCh();
-                }
+           		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+            } 
+            // Handle octal representation
+            else if(isOcta(ch)){
+            	buffer = new StringBuffer();
+            	
+            	while(isOcta(ch)){
+           			buffer.append(ch);
+           			nextCh();
+            	}
             	return new TokenInfo(INT_LITERAL, buffer.toString(), line);
             } 
             return new TokenInfo(INT_LITERAL, "0", line);
@@ -384,7 +393,7 @@ class Scanner {
         System.err.printf(message, args);
         System.err.println();
     }
-
+    
     /**
      * Return true if the specified character is a digit (0-9); false otherwise.
      * 
@@ -392,9 +401,33 @@ class Scanner {
      *            character.
      * @return true or false.
      */
-
+    
     private boolean isDigit(char c) {
-        return (c >= '0' && c <= '9');
+    	return (c >= '0' && c <= '9');
+    }
+    
+    /**
+     * Return true if the specified character is a character (0-9) or (a-f); false otherwise.
+     * 
+     * @param c
+     *            character.
+     * @return true or false.
+     */
+    
+    private boolean isHexa(char c) {
+    	return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');
+    }
+
+    /**
+     * Return true if the specified character is a digit (0-7); false otherwise.
+     * 
+     * @param c
+     *            character.
+     * @return true or false.
+     */
+
+    private boolean isOcta(char c) {
+        return (c >= '0' && c <= '7');
     }
 
     /**
