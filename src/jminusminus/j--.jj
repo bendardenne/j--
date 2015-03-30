@@ -181,6 +181,7 @@ TOKEN:
 | < GT: ">" >
 | < INC: "++" >
 | < LAND: "&&" >
+| < LOR: "||" >
 | < LE: "<=" >
 | < LNOT: "!" >
 | < MINUS: "-" >
@@ -1144,7 +1145,7 @@ private JExpression assignmentExpression(): {
 }
 {
     try {
-        lhs = conditionalAndExpression() { line = lhs.line(); }
+        lhs = conditionalOrExpression() { line = lhs.line(); }
         [       
             <ASSIGN> 
             rhs = assignmentExpression()
@@ -1153,6 +1154,36 @@ private JExpression assignmentExpression(): {
             rhs = assignmentExpression()
             { lhs = new JPlusAssignOp( line, lhs, rhs ); }
         ]
+    } 
+    catch ( ParseException e ) { 
+        recoverFromError( new int[] { SEMI, EOF }, e ); 
+    }
+    { return lhs; }
+}
+
+/**
+ * Parse a conditional-and expression.
+ * 
+ * <pre>
+ *   conditionalAndExpression ::= equalityExpression // level 10
+ *                                  {LAND equalityExpression}
+ * </pre>
+ * 
+ * @return an AST for a conditionalExpression.
+ */
+
+private JExpression conditionalOrExpression(): {
+    int line = 0;
+    JExpression lhs = null, rhs = null;
+}
+{
+    try {
+        lhs = conditionalAndExpression() { line = lhs.line(); }
+        ( 
+            <LOR>
+            rhs = conditionalAndExpression()
+            { lhs = new JLogicalOrOp( line, lhs, rhs ); }
+        )*
     } 
     catch ( ParseException e ) { 
         recoverFromError( new int[] { SEMI, EOF }, e ); 

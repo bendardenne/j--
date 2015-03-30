@@ -3,6 +3,11 @@ javadoc/
 java2html/
 j--.zip
 
+src/jminusminus/JavaCCParser.java
+src/jminusminus/JavaCCParserConstants.java
+src/jminusminus/JavaCCParserTokenManager.java
+
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
