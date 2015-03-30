@@ -122,6 +122,77 @@ class JEqualOp extends JBooleanBinaryExpression {
 }
 
 /**
+ * The AST node for a logical OR (||) expression. Implements short-circuiting
+ * branching.
+ */
+
+class JLogicalOrOp extends JBooleanBinaryExpression {
+
+    /**
+     * Construct an AST node for a logical OR expression given its line number,
+     * and lhs and rhs operands.
+     * 
+     * @param line
+     *            line in which the logical AND expression occurs in the source
+     *            file.
+     * @param lhs
+     *            lhs operand.
+     * @param rhs
+     *            rhs operand.
+     */
+
+    public JLogicalOrOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "||", lhs, rhs);
+    }
+
+    /**
+     * Analyzing a logical OR expression involves analyzing its operands and
+     * insuring they are boolean; the result type is of course boolean.
+     * 
+     * @param context
+     *            context in which names are resolved.
+     * @return the analyzed (and possibly rewritten) AST subtree.
+     */
+
+    public JExpression analyze(Context context) {
+        lhs = (JExpression) lhs.analyze(context);
+        rhs = (JExpression) rhs.analyze(context);
+        lhs.type().mustMatchExpected(line(), Type.BOOLEAN);
+        rhs.type().mustMatchExpected(line(), Type.BOOLEAN);
+        type = Type.BOOLEAN;
+        return this;
+    }
+
+    /**
+     * The semantics of j-- require that we implement short-circuiting branching
+     * in implementing the logical OR.
+     * 
+     * @param output
+     *            the code emitter (basically an abstraction for producing the
+     *            .class file).
+     * @param targetLabel
+     *            target for generated branch instruction.
+     * @param onTrue
+     *            should we branch on true?
+     */
+
+    public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+        if (onTrue) {
+            String falseLabel = output.createLabel();
+            lhs.codegen(output, targetLabel, true);
+            rhs.codegen(output, falseLabel, false);
+            output.addLabel(falseLabel);
+        } else {
+            String trueLabel = output.createLabel();
+            lhs.codegen(output, trueLabel, true);
+            rhs.codegen(output, targetLabel, false);
+            output.addLabel(trueLabel);
+        }
+    }
+
+}
+
+/**
  * The AST node for a logical AND (&&) expression. Implements short-circuiting
  * branching.
  */
