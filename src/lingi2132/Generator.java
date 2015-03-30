@@ -21,7 +21,7 @@ public class Generator extends FibonacciGenerator{
 		ArrayList<String> accessFlags = new ArrayList<String>();
 		
 		accessFlags.add("public");//public
-		cle.addClass(accessFlags, "packageOfClassToGenerate.ClassToGenerate", "java/lang/Object", null, false);
+		cle.addClass(accessFlags, "packageOfClassToGenerate/ClassToGenerate", "java/lang/Object", null, false);
 		
 		
 		cle.addMethod(accessFlags, "<init>","()V",null, false);
@@ -37,7 +37,7 @@ public class Generator extends FibonacciGenerator{
 		cle.addBranchInstruction(IF_ICMPGE, "l10");
 		cle.addNoArgInstruction(ILOAD_0);
 		cle.addNoArgInstruction(IRETURN);
-		cle.addBranchInstruction(GOTO, "24");
+		cle.addBranchInstruction(GOTO, "l24");
 		cle.addLabel("l10");
 		cle.addNoArgInstruction(ILOAD_0);
 		cle.addNoArgInstruction(ICONST_1);
@@ -46,9 +46,11 @@ public class Generator extends FibonacciGenerator{
 		cle.addNoArgInstruction(ILOAD_0);
 		cle.addNoArgInstruction(ICONST_2);
 		cle.addNoArgInstruction(ISUB);
+		
 		cle.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "fibonacci", "(I)I");
 		cle.addNoArgInstruction(IADD);
 		cle.addNoArgInstruction(IRETURN);
+		cle.addLabel("l24");
 		cle.addNoArgInstruction(NOP);
 		
 		// Write the file.
