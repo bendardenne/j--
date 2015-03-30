@@ -83,7 +83,7 @@ relationalExpression ::= logicalshiftExpression       // level 5
                            | INSTANCEOF referenceType]
 
 logicalshiftExpression ::= additiveExpression   // level 4
-							{<< additiveExpression}
+                             {LLEFTSHIFT additiveExpression}
 
 additiveExpression ::= multiplicativeExpression // level 3
                          {(PLUS | MINUS) multiplicativeExpression}
