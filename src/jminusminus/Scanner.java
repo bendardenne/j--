@@ -263,29 +263,28 @@ class Scanner {
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':
+            buffer = new StringBuffer();
+            buffer.append(ch);
             nextCh();
             
             // Handle hexadecimal representation
-            if(ch == 'x'){
-            	buffer = new StringBuffer();
-           		buffer.append('x');
-           		nextCh();
-           		
-           		while (isHexa(ch)){
-           			buffer.append(ch);
-           			nextCh();
+            if(ch == 'x' || ch == 'X'){
+           	buffer.append(ch);
+           	nextCh();
+           	while (isHexa(ch)){
+           	    buffer.append(ch);
+           	    nextCh();
             	}
-           		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+           	return new TokenInfo(INT_LITERAL, buffer.toString(), line);
             } 
             // Handle octal representation
             else if(isOcta(ch)){
-            	buffer = new StringBuffer();
-            	
-            	while(isOcta(ch)){
-           			buffer.append(ch);
-           			nextCh();
+                buffer = new StringBuffer();
+                while(isOcta(ch)){
+                    buffer.append(ch);
+                    nextCh();
             	}
-            	return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+                return new TokenInfo(INT_LITERAL, buffer.toString(), line);
             } 
             return new TokenInfo(INT_LITERAL, "0", line);
             
@@ -416,7 +415,7 @@ class Scanner {
      */
     
     private boolean isHexa(char c) {
-    	return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');
+    	return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
     }
 
     /**

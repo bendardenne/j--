@@ -210,7 +210,7 @@ TOKEN:
   < IDENTIFIER: (<LETTER>|"_"|"$") (<LETTER>|<DIGIT>|"_"|"$")* >
 | < #LETTER: ["a"-"z","A"-"Z"] >
 | < #DIGIT: ["0"-"9"] >
-| < #HEXA : ["0"-"9","a"-"f"] >
+| < #HEXA : ["0"-"9","a"-"f","A"-"F"] >
 | < #OCTA : ["0"-"7"] >
 | < #NON_ZERO_DIGIT: ["1"-"9"] >
 }
@@ -218,7 +218,7 @@ TOKEN:
 // Literals
 TOKEN:
 {
-  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "0" (<OCTA>)* | "0x" (<HEXA>)*) >
+  < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "0" (<OCTA>)* | "0x" (<HEXA>)* | "0X" (<HEXA>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >

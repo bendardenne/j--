@@ -51,7 +51,8 @@ class JLiteralInt extends JExpression {
      */
 
     public void codegen(CLEmitter output) {
-        int i = Integer.parseInt(text);
+        
+        int i = getDecimalInt();
         switch (i) {
         case 0:
             output.addNoArgInstruction(ICONST_0);
@@ -89,6 +90,20 @@ class JLiteralInt extends JExpression {
     public void writeToStdOut(PrettyPrinter p) {
         p.printf("<JLiteralInt line=\"%d\" type=\"%s\" " + "value=\"%s\"/>\n",
                 line(), ((type == null) ? "" : type.toString()), text);
+    }
+    
+    private int getDecimalInt(){
+        int ret;
+        
+        if(text.startsWith("0x") || text.startsWith("0X")){
+            ret = Integer.parseInt(text.substring(2), 16);
+        } else if(text.startsWith("0")){
+            ret = Integer.parseInt(text, 8);
+        } else {
+            ret = Integer.parseInt(text);
+        }
+       
+        return ret;
     }
 
 }
