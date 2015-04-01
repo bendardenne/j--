@@ -177,12 +177,12 @@ class JLogicalOrOp extends JBooleanBinaryExpression {
      */
 
     public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
-        if (onTrue) {
-            String falseLabel = output.createLabel();
+        if (onTrue){ // if the expression is true, must go to the targetLabel
+        	// the expression is true if lhs or rhs is true. 
             lhs.codegen(output, targetLabel, true);
-            rhs.codegen(output, falseLabel, false);
-            output.addLabel(falseLabel);
-        } else {
+            rhs.codegen(output, targetLabel, true);
+        } else { // if the expression is false, must go to the targetLabel
+        	// the expression is false if lhs AND rhs is false.  
             String trueLabel = output.createLabel();
             lhs.codegen(output, trueLabel, true);
             rhs.codegen(output, targetLabel, false);
