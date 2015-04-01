@@ -23,6 +23,7 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(ClassesTest.class);
         suite.addTestSuite(ConditionalOrTest.class);
         suite.addTestSuite(DoWhileTest.class);
+        suite.addTestSuite(HexaOctalTest.class);
         
         return suite;
     }
